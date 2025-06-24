@@ -50,7 +50,7 @@ func (f *FieldElement) Add(other *FieldElement) *FieldElement {
 }
 
 /*
-역원(Negative)을 구하는 함수
+덧셈 역원을 구하는 함수
 a + (-a) = 0 mod p
 예) 3의 역원 in mod 7 : 7 - 3 = 4 -> 3 + 4 = 0 = 0 mod 7
 */
@@ -59,9 +59,11 @@ func (f *FieldElement) Negative() *FieldElement {
 	return NewFieldElement(f.order, f.order-f.num)
 }
 
-func (f *FieldElement) Substract(other *FieldElement) *FieldElement {
+/*
+other의 역원을 구한 후 f와 더함
+*/
+func (f *FieldElement) Subtract(other *FieldElement) *FieldElement {
 	// a, b element of the finite set, c = a - b, given b how can we find c, (b + c) % order = a, a - b => (a + (-b)) % order
 
-	//TODO
-	return nil
+	return f.Add(other.Negative())
 }
