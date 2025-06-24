@@ -40,12 +40,16 @@ func (f *FieldElement) EqualTo(other *FieldElement) bool {
 	return f.order == other.order && f.num == other.num
 }
 
+func (f *FieldElement) checkOrder(other *FieldElement) {
+	if f.order != other.order {
+		panic("add need to do on the field element with the same order\n더하기는 같은 오더의 필드 엘리먼트에서만 수행해야 합니다.")
+	}
+}
+
 /*
  */
 func (f *FieldElement) Add(other *FieldElement) *FieldElement {
-	if f.order != other.order {
-		panic("add need to do on the field element with the same order\n더하기는 같은 오더의 필드 엘리먼트에서만 수행해야 합니다")
-	}
+	f.checkOrder(other)
 	return NewFieldElement(f.order, (f.num+other.num)%f.order)
 }
 
@@ -66,4 +70,9 @@ func (f *FieldElement) Subtract(other *FieldElement) *FieldElement {
 	// a, b element of the finite set, c = a - b, given b how can we find c, (b + c) % order = a, a - b => (a + (-b)) % order
 
 	return f.Add(other.Negative())
+}
+
+func (f *FieldElement) Multiplie(other *FieldElement) *FieldElement {
+	// TODO : I added a temporary return value to prevent errors.
+	return &FieldElement{}
 }
