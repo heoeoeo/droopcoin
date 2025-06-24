@@ -2,6 +2,7 @@ package elliptic_curve
 
 import (
 	"fmt"
+	"math"
 )
 
 /*
@@ -73,6 +74,13 @@ func (f *FieldElement) Subtract(other *FieldElement) *FieldElement {
 }
 
 func (f *FieldElement) Multiplie(other *FieldElement) *FieldElement {
-	// TODO : I added a temporary return value to prevent errors.
-	return &FieldElement{}
+	f.checkOrder(other)
+
+	// Arithmetic multiple over modulur of the order
+	return NewFieldElement(f.order, (f.num*other.num)%f.order)
+}
+
+func (f *FieldElement) Power(power int64) *FieldElement {
+	// Arithmetic power over modulur of the order
+	return NewFieldElement(f.order, uint64(math.Pow(float64(f.num), float64(power)))%f.order)
 }
